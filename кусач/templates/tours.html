@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Каталог туров</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 2.5rem;
+        }
+
+        .flashes {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #c3e6cb;
+        }
+
+        ul {
+            list-style-type: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tour-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tour-image {
+            width: 150px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .tour-info {
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .duration {
+            color: #7f8c8d;
+        }
+
+        form {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            align-self: flex-start;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            li {
+                padding: 15px;
+            }
+
+            .tour-header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tour-image {
+                width: 100%;
+                max-width: 300px;
+                height: 200px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            form {
+                align-items: stretch;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Каталог туров</h1>
+
+    <!-- Блок для отображения сообщений -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes" style="color: green;">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <ul>
+        {% for tour in tours %}
+            <li>
+                <h2>{{ tour.destination }}</h2>
+                <p>Цена: {{ tour.price }} рублей</p>
+                <p>Длительность: {{ tour.duration }}</p>
+                <p>{{ tour.description }}</p>
+                <!-- Форма для бронирования с выбором даты -->
+                <form action="{{ url_for('book_tour', tour_id=tour.id) }}" method="post">
+                    <label for="date">Выберите дату:</label>
+                    <input type="date" id="date" name="date" required>
+                    <button type="submit">Забронировать</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

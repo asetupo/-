@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Турагентство</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        a {
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #2980b9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #ecf0f1;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        /* Стиль для кнопок действия */
+        .action-link {
+            margin-right: 8px;
+            padding: 6px 10px;
+            background-color: #e67e22;
+            color: white;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .action-link:hover {
+            background-color: #d35400;
+        }
+        /* Для разделов */
+        section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список туров</h1>
+    <a href="{{ url_for('add_tour') }}">Добавить тур</a>
+    <table>
+        <tr>
+            <th>Название тура</th>
+            <th>Цена</th>
+            <th>Длительность</th>
+            <th>Описание</th>
+            <th>Действия</th>
+        </tr>
+        {% for tour in tours %}
+        <tr>
+            <td>{{ tour.destination }}</td>
+            <td>{{ tour.price }}</td>
+            <td>{{ tour.duration }}</td>
+            <td>{{ tour.description }}</td>
+            <td>
+                <a class="action-link" href="{{ url_for('edit_tour', id=tour.id) }}">Редактировать</a>
+                <a class="action-link" href="{{ url_for('delete_tour', id=tour.id) }}" onclick="return confirm('Удалить этот тур?')">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <section>
+        <h2>Бронирования</h2>
+        <table>
+            <tr>
+                <th>Пользователь</th>
+                <th>Тур</th>
+                <th>Дата бронирования</th>
+                <th>Действия</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.tour.destination }}</td>
+                <td>{{ booking.booking_date }}</td>
+                <td>
+                    <a class="action-link" href="{{ url_for('edit_booking', id=booking.id) }}">Редактировать</a>
+                    <a class="action-link" href="{{ url_for('delete_booking', id=booking.id) }}" onclick="return confirm('Удалить это бронирование?')">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <section>
+        <h2>Пользователи</h2>
+        <table>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Email</th>
+                <th>Действия</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <a class="action-link" href="{{ url_for('edit_user', id=user.id) }}">Редактировать</a>
+                    <a class="action-link" href="{{ url_for('delete_user', id=user.id) }}" onclick="return confirm('Удалить этого пользователя?')">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+</body>
+</html>

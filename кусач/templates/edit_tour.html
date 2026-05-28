@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактировать тур</title>
+</head>
+<body>
+    <h1>Редактировать тур</h1>
+    <form method="post">
+        <label>Название тура:</label><br>
+        <input type="text" name="destination" value="{{ tour.destination }}" required><br>
+        <label>Цена:</label><br>
+        <input type="number" step="0.01" name="price" value="{{ tour.price }}" required><br>
+        <label>Длительность:</label><br>
+        <input type="text" name="duration" value="{{ tour.duration }}" required><br>
+        <label>Описание:</label><br>
+        <textarea name="description">{{ tour.description }}</textarea><br>
+        <button type="submit">Обновить</button>
+    </form>
+    <a href="{{ url_for('index') }}">Назад</a>
+</body>
+</html>

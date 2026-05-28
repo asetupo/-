@@ -1,0 +1,22 @@
+<h1>Редактировать бронирование</h1>
+<form method="post">
+    <label>Пользователь:</label>
+    <select name="user_id">
+        {% for user in users %}
+            <option value="{{ user.id }}" {% if user.id == booking.user_id %}selected{% endif %}>{{ user.username }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>Тур:</label>
+    <select name="tour_id">
+        {% for tour in tours %}
+            <option value="{{ tour.id }}" {% if tour.id == booking.tour_id %}selected{% endif %}>{{ tour.destination }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>Дата бронирования:</label>
+    <input type="date" name="booking_date" value="{{ booking.booking_date }}"><br>
+
+    <input type="submit" value="Сохранить">
+</form>
+<a href="{{ url_for('index') }}">Назад</a>

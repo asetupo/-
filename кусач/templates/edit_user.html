@@ -1,0 +1,17 @@
+<h1>Редактировать пользователя</h1>
+<form method="post">
+    <label>Имя пользователя:</label>
+    <input type="text" name="username" value="{{ user.username }}"><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" value="{{ user.email }}"><br>
+
+    <label>Роль:</label>
+    <select name="role">
+        <option value="user" {% if user.role == 'user' %}selected{% endif %}>Пользователь</option>
+        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Админ</option>
+    </select><br>
+
+    <input type="submit" value="Сохранить">
+</form>
+<a href="{{ url_for('index') }}">Назад</a>
